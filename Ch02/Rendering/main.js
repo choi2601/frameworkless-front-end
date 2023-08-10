@@ -1,24 +1,19 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+import getTodos from "./getTodos";
+import view from "./view";
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+const state = {
+  todos: getTodos(),
+  currentFilter: "All",
+};
 
-setupCounter(document.querySelector('#counter'))
+const main = document.querySelector(".todoapp");
+
+/**
+ * @description 렌더링 엔진
+ * 메인 스레드를 차단하지 않으며 다음 다시 그리기(repaint)가 이벤트 루프에서 스케줄링되기 직전에 실행된다
+ */
+window.requestAnimationFrame(() => {
+  const newMain = view(main, state);
+
+  main.replaceWith(newMain);
+});
