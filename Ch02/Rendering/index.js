@@ -14,9 +14,19 @@ const state = {
   currentFilter: "All",
 };
 
-window.requestAnimationFrame(() => {
-  const main = document.querySelector(".todoapp");
-  const newMain = registry.renderRoot(main, state);
+const render = () => {
+  window.requestAnimationFrame(() => {
+    const main = document.querySelector(".todoapp");
+    const newMain = registry.renderRoot(main, state);
 
-  main.replaceWith(newMain);
-});
+    main.replaceWith(newMain);
+  });
+};
+
+/**
+ * @description 임의로 5초마다 state 값을 변경하고 가상 루트 요소를 렌더링
+ */
+window.setInterval(() => {
+  state.todos = getTodos();
+  render();
+}, 5000);
