@@ -22,3 +22,33 @@
 프레임워크 없는 접근 방식에 대해 종종 듣게 되는 비판 중 하나는 **_아무도 관리하지 않는 또 다른 프레임워크를 작성했다_** 는 것이다.
 
 아키텍쳐를 과도하게 엔지니어링할 경우 실제로 이러한 위험이 따른다.
+
+### 사용자 정의 이벤트 사용
+
+DOM 이벤트 API에서는 사용자 정의 이벤트 타입을 정의하고 다른 이벤트 처럼 처리할 수 있다.
+
+이는 도메인에 바인딩되고 시스템 자체에서만 발생한 DOM 이벤트를 생성할 수 있기 때문에 DOM 이벤트 API에서 중요한 부분이다.
+
+```js
+const EVENT_NAME = "FiveCharInputValue";
+const input = document.querySelector("input");
+
+input.addEventListener("input", () => {
+  const { length } = input.value;
+
+  if (length === 5) {
+    const time = new Date().getTime();
+    const event = new CustomEvent(EVENT_NAME, {
+      detail: {
+        time,
+      },
+    });
+
+    input.dipatchEvent(event);
+  }
+});
+
+input.addEventListener(EVENT_NAME, (e) => {
+  console.log(e.detail);
+});
+```
