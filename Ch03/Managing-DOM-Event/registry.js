@@ -11,8 +11,8 @@ const registry = {};
  * 각 구성 요소를 래핑하는 고차 함수(higher-order function)
  */
 const renderWrapper = (component) => {
-  return (targetElement, state) => {
-    const element = component(targetElement, state);
+  return (targetElement, state, events) => {
+    const element = component(targetElement, state, events);
 
     const childComponents = element.querySelectorAll("[data-component]");
 
@@ -44,12 +44,12 @@ const add = (name, component) => {
 /**
  * @description 구성 요소 기반 애플리케이션의 부팅 함수
  */
-const renderRoot = (root, state) => {
+const renderRoot = (root, state, events) => {
   const cloneComponent = (root) => {
     return root.cloneNode(true);
   };
 
-  return renderWrapper(cloneComponent)(root, state);
+  return renderWrapper(cloneComponent)(root, state, events);
 };
 
 export default { add, renderRoot };
