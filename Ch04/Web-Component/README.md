@@ -28,7 +28,7 @@
 
 한 단어 태그는 W3C(World Wide Web Consortium)에서만 단독으로 사용할 수 있다.
 
-> 사용자 정의 요소는 HTML 요소를 확장하는 자바스크립트 클래스일 뿐ㅇ디ㅏ.
+> 사용자 정의 요소는 HTML 요소를 확장하는 자바스크립트 클래스일 뿐이다.
 
 ```js
 export default class HelloWorld extends HTMLElement {
