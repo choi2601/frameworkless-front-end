@@ -57,3 +57,21 @@ window.customElements.define("hello-world", HelloWorld);
 브라우저 구성 요소 레지스토리에 구성 요소를 추가하는 것은 태그 이름을 사용자 정의 클래스에 연결하는 것을 의미한다.
 
 그런 다음에 생성한 사용자 정의 태그(<hello-world />)를 구성 요소로 사용할 수 있다.
+
+### 속성 관리
+
+웹 구성 요소의 가장 중요한 기능은 개발자가 어떤 프레임워크와도 호환되는 새로운 구성 요소를 만들 수 있다는 것이다.
+
+이 목적을 달성하려면 구성 요소에 다른 표준 HTML 요소와 동일한 공용 API가 있어야 한다.
+
+따라서 사용자 정의 요소에 속성을 추가하려면 다른 속성과 동일한 방식으로 이 속성을 관리할 수 있어야 한다.
+
+```html
+<input type="text" value="Frameworkless" />
+```
+
+```js
+input.value = "Frameworkless";
+
+input.setAttribute("value", "Frameworkless");
+```
