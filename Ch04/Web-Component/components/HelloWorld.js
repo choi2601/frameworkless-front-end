@@ -31,13 +31,12 @@ export default class HelloWorld extends HTMLElement {
 
   connectedCallback() {
     window.requestAnimationFrame(() => {
-      const div = document.createElement("div");
+      this.div = document.createElement("div");
 
-      div.textContent = "Hello World";
+      this.div.textContent = "Hello World";
+      this.div.style.color = this.color;
 
-      div.style.color = this.color;
-
-      this.appendChild(div);
+      this.appendChild(this.div);
     });
   }
 }
