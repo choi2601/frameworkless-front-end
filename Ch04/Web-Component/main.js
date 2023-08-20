@@ -1,5 +1,5 @@
 import HelloWorld from "./components/HelloWorld";
-import GitHubAvatar from "./components/GitHubAvatar";
+import GitHubAvatar, { EVENTS } from "./components/GitHubAvatar";
 
 window.customElements.define("hello-world", HelloWorld);
 window.customElements.define("github-avatar", GitHubAvatar);
@@ -16,4 +16,14 @@ const changeColorTo = (color) => {
 
 document.querySelector("button").addEventListener("click", () => {
   changeColorTo("blue");
+});
+
+document.querySelectorAll("github-avatar").forEach((avatar) => {
+  avatar.addEventListener(EVENTS.AVATAR_LOAD_COMPLETE, (e) => {
+    console.log("Avatar Loaded", e.detail.avatar);
+  });
+
+  avatar.addEventListener(EVENTS.AVATAR_LOAD_ERROR, (e) => {
+    console.log("Avatar Loading error", e.detail.error);
+  });
 });
