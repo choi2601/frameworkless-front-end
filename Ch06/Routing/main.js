@@ -1,24 +1,26 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+import createRouter from "./router";
+import createPages from "./pages";
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+const container = document.querySelector("main");
 
-setupCounter(document.querySelector('#counter'))
+const pages = createPages(container);
+
+const router = createRouter();
+
+router
+  .addRoute("/#", pages.home)
+  .addRoute("#/list", page.list)
+  .setNotFound(pages.notFound)
+  .start();
+
+const NAV_BTN_SELECTOR = "button[data-navigate]";
+
+document.body.addEventListener("click", (e) => {
+  const { target } = e;
+
+  if (target.match(NAV_BTN_SELECTOR)) {
+    const { navigate } = target.dataset;
+
+    router.navigate(navigate);
+  }
+});
