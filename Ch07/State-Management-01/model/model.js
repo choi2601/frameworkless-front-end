@@ -1,3 +1,6 @@
+/**
+ * @description 깊은 복사를 위한 헬퍼 함수
+ */
 const cloneDeep = (x) => {
   return JSON.parse(JSON.stringify(x));
 };

@@ -6,61 +6,47 @@ import applyDiff from "./applyDiff";
 
 import registry from "./registry";
 
+import modelFactory from "./model/model";
+
+const model = modelFactory();
+
 registry.add("app", appView);
 registry.add("todos", todosView);
 registry.add("counter", counterView);
 registry.add("filters", filtersView);
 
-const state = {
-  todos: [],
-  currentFilter: "All",
-};
-
 const events = {
   addItem: (text) => {
-    state.todos.push({
-      text,
-      completed: false,
-    });
-
-    render();
+    model.addItem(text);
+    render(model.getState());
   },
   updateItem: (index, text) => {
-    state.todos[index].text = text;
-
-    render();
+    model.updateItem(index, text);
+    render(model.getState());
   },
   deleteItem: (index) => {
-    state.todos.splice(index, 1);
-
-    render();
+    model.deleteItem(index);
+    render(model.getState());
   },
   toggleItemCompleted: (index) => {
-    const { completed } = state.todos[index];
-    state.todos[index].completed = !completed;
-
-    render();
+    model.toggleItemCompleted(index);
+    render(model.getState());
   },
   completeAll: () => {
-    state.todos.forEach((t) => {
-      t.completed = true;
-    });
-
-    render();
+    model.completeAll();
+    render(model.getState());
   },
   clearCompleted: () => {
-    state.todos = state.todos.filter((t) => !t.completed);
-
-    render();
+    model.clearCompleted();
+    render(model.getState());
   },
   changeFilter: (filter) => {
-    state.currentFilter = filter;
-
-    render();
+    model.changeFilter(filter);
+    render(model.getState());
   },
 };
 
-const render = () => {
+const render = (state) => {
   window.requestAnimationFrame(() => {
     const main = document.querySelector("#root");
 
@@ -70,4 +56,4 @@ const render = () => {
   });
 };
 
-render();
+render(model.getState());
