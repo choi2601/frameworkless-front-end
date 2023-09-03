@@ -6,45 +6,26 @@ import applyDiff from "./applyDiff";
 
 import registry from "./registry";
 
-import modelFactory from "./model/model";
+import stateFactory from "./model/state";
 
-const model = modelFactory();
+const loadState = () => {
+  const serializedState = window.localStorage.getItem("state");
+
+  if (!serializedState) {
+    return;
+  }
+
+  return JSON.parse(serializedState);
+};
+
+const state = stateFactory(loadState());
+
+const { addChangeListener, ...events } = state;
 
 registry.add("app", appView);
 registry.add("todos", todosView);
 registry.add("counter", counterView);
 registry.add("filters", filtersView);
-
-const events = {
-  addItem: (text) => {
-    model.addItem(text);
-    render(model.getState());
-  },
-  updateItem: (index, text) => {
-    model.updateItem(index, text);
-    render(model.getState());
-  },
-  deleteItem: (index) => {
-    model.deleteItem(index);
-    render(model.getState());
-  },
-  toggleItemCompleted: (index) => {
-    model.toggleItemCompleted(index);
-    render(model.getState());
-  },
-  completeAll: () => {
-    model.completeAll();
-    render(model.getState());
-  },
-  clearCompleted: () => {
-    model.clearCompleted();
-    render(model.getState());
-  },
-  changeFilter: (filter) => {
-    model.changeFilter(filter);
-    render(model.getState());
-  },
-};
 
 const render = (state) => {
   window.requestAnimationFrame(() => {
@@ -55,5 +36,17 @@ const render = (state) => {
     applyDiff(document.body, main, newMain);
   });
 };
+
+addChangeListener(render);
+
+addChangeListener((state) => {
+  Promise.resolve.then(() => {
+    window.localStorage.setItem("state", JSON.stringify(state));
+  });
+});
+
+addChangeListener((state) => {
+  console.log(`Current State (${new Date().getTime()})`, state);
+});
 
 render(model.getState());
